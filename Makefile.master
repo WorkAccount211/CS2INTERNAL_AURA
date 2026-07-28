@@ -1,0 +1,22 @@
+# AURA.CC Master DLL Makefile
+# Compiles src/aura_master_dll.cpp into bin/AuraInternal.dll
+
+CXX = x86_64-w64-mingw32-g++
+CXXFLAGS = -std=c++20 -O3 -shared -static -D_WIN32_WINNT=0x0A00
+LDFLAGS = -lws2_32 -lpsapi -ld3d11 -ld3dcompiler
+
+TARGET = bin/AuraInternal.dll
+SRC = src/aura_master_dll.cpp
+
+all: directories $(TARGET)
+
+directories:
+	@mkdir -p bin
+
+$(TARGET): $(SRC)
+	@echo "[*] Compiling AURA.CC Master Enterprise DLL..."
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
+	@echo "[+] Build complete: $(TARGET)"
+
+clean:
+	rm -rf bin

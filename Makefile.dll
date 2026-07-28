@@ -1,0 +1,22 @@
+# AURA.CC Universal DLL Makefile
+# Compiles AURA.CC Enterprise Internal Cheat into AuraInternal.dll
+
+CXX = x86_64-w64-mingw32-g++
+CXXFLAGS = -std=c++20 -O3 -shared -static -Iinclude -D_WIN32_WINNT=0x0A00
+LDFLAGS = -lws2_32 -lpsapi -ld3d11 -ld3dcompiler
+
+TARGET = bin/AuraInternal.dll
+SRC = src/main_dll.cpp src/core/d3d11_hook.cpp src/core/config.cpp src/core/saas_cloud.cpp src/features/visuals/visuals_engine.cpp src/features/rage/combat_engine.cpp src/features/rage/antiaim_engine.cpp src/features/movement/movement_engine.cpp src/features/skins/skin_engine.cpp src/ui/menu_engine.cpp src/lua/lua_advanced.cpp
+
+all: directories $(TARGET)
+
+directories:
+	mkdir -p bin
+
+$(TARGET): $(SRC)
+	@echo "[*] Compiling AURA.CC Enterprise Universal DLL..."
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
+	@echo "[+] Build complete: $(TARGET)"
+
+clean:
+	rm -rf bin

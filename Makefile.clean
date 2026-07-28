@@ -1,0 +1,22 @@
+# Clean Menu DLL Makefile
+# Compiles AuraCleanMenu.dll for universal injection
+
+CXX = x86_64-w64-mingw32-g++
+CXXFLAGS = -std=c++20 -O3 -shared -static -Iinclude -D_WIN32_WINNT=0x0A00
+LDFLAGS = -lws2_32 -lpsapi -ld3d11 -ld3dcompiler
+
+TARGET = bin/AuraCleanMenu.dll
+SRC = src/main_clean.cpp src/ui/clean_menu.cpp src/core/config.cpp src/core/saas_cloud.cpp
+
+all: directories $(TARGET)
+
+directories:
+	mkdir -p bin
+
+$(TARGET): $(SRC)
+	@echo "[*] Compiling AURA.CC Clean Menu DLL..."
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
+	@echo "[+] Build complete: $(TARGET)"
+
+clean:
+	rm -rf bin
